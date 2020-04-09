@@ -18,6 +18,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pages.GoogleHomePage;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -42,17 +43,15 @@ public class MyStepsDefinition {
 
     @Given("I am on the Google search page$")
     public void I_visit_google() {
-        PageFactory.initElements(driver, this);
         driver.get("https:\\www.google.com");
     }
 
     @When("^I search for \"([^\"]*)\"$")
     public void search_for(String query) {
-        WebElement element = driver.findElement(By.name("q"));
-        // Enter something to search for
-        element.sendKeys(query);
-        // Now submit the form. WebDriver will find the form for us from the element
-        element.submit();
+        GoogleHomePage googleHomePage = new GoogleHomePage(driver);
+
+        googleHomePage.search(query);
+        googleHomePage.clickSearch();
     }
 
     @Then("^the page title should start with \"([^\"]*)\"$")
